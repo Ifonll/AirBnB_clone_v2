@@ -11,6 +11,9 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 
+classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
+           "Place": Place, "Review": Review, "State": State, "User": User}
+
 
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
@@ -54,7 +57,7 @@ class HBNBCommand(cmd.Cmd):
             _cls = pline[:pline.find('.')]
 
             # isolate and validate <command>
-            _cmd = pline[pline.find('.') + 1:pline.find('(')]
+            _cmd[0] = pline[pline.find('.') + 1:pline.find('(')]
             if _cmd not in HBNBCommand.dot_cmds:
                 raise Exception
 
@@ -115,12 +118,16 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
+            
         if not args:
             print("** class name missing **")
             return
         elif args not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
+        elif len(args) > 2:
+            print("")
+        elif c
         new_instance = HBNBCommand.classes[args]()
         storage.save()
         print(new_instance.id)
@@ -308,10 +315,18 @@ class HBNBCommand(cmd.Cmd):
                     return
                 # type cast as necessary
                 if att_name in HBNBCommand.types:
-                    att_val = HBNBCommand.types[att_name](att_val)
+                    a
+
+        if not c_name:
+            print("** class name missing **")
+            return
+
+        if c_name not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            att_val = HBNBCommand.types[att_name](att_val)
 
                 # update dictionary with name, value pair
-                new_dict.__dict__.update({att_name: att_val})
+            new_dict.__dict__.update({att_name: att_val})
 
         new_dict.save()  # save updates to file
 
