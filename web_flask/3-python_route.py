@@ -25,6 +25,7 @@ def aboutC(text):
     return f"C {modified_text}"
 
 
+@app.route("/python/", defaults={'text': 'is cool'}, strict_slashes=False)
 @app.route("/python/<text>", strict_slashes=False)
 def aboutPython(text):
     """"python is amazing"""
